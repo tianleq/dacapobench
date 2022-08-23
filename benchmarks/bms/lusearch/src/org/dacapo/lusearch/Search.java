@@ -30,6 +30,7 @@ import java.io.PrintWriter;
 import java.nio.file.Paths;
 
 import org.dacapo.harness.LatencyReporter;
+import org.dacapo.harness.Callback;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -76,7 +77,13 @@ public class Search {
     }
   }*/
 
+  private Callback callback;
+
   public Search() {
+  }
+
+  public Search(Callback callback) {
+    this.callback = callback;
   }
 
   /** Simple command-line based search demo. */
@@ -142,7 +149,7 @@ public class Search {
 
     for (int j = 0; j < threads; j++) {
       LatencyReporter lr = new LatencyReporter(j, threads, totalQueries, querySetSize*iterations);
-      new QueryThread(this, "Query" + j, j, threads, totalQuerieSets, index, outBase, queryBase, field, normsField, raw, hitsPerPage, iterations, lr).start();
+      new QueryThread(this, "Query" + j, j, threads, totalQuerieSets, index, outBase, queryBase, field, normsField, raw, hitsPerPage, iterations, lr, callback).start();
     }
     synchronized (this) {
       while (completed != totalQuerieSets*iterations) {
@@ -171,9 +178,10 @@ public class Search {
     int hitsPerPage;
     int iterations;
     LatencyReporter reporter;
+    Callback callback;
 
     public QueryThread(Search parent, String name, int id, int threadCount, int totalQueries, String index, String outBase, String queryBase, String field,
-        String normsField, boolean raw, int hitsPerPage, int iterations, LatencyReporter reporter) {
+        String normsField, boolean raw, int hitsPerPage, int iterations, LatencyReporter reporter, Callback callback) {
       super(name);
       this.parent = parent;
       this.id = id;
@@ -189,6 +197,7 @@ public class Search {
       this.hitsPerPage = hitsPerPage;
       this.iterations = iterations;
       this.reporter = reporter;
+      this.callback = callback;
     }
 
     public void run() {
@@ -197,7 +206,7 @@ public class Search {
         for (int r = 0; r < iterations; r++) {
           for (int i = 0, queryId = id; i < count; i++, queryId += threadCount) {
             // make and run query
-            new QueryProcessor(parent, name, queryId, index, outBase, queryBase, field, normsField, raw, hitsPerPage, totalQueries, iterations, reporter).run();
+            new QueryProcessor(parent, name, queryId, index, outBase, queryBase, field, normsField, raw, hitsPerPage, totalQueries, iterations, reporter, callback).run();
           }
         }
       } catch (Exception e) {
@@ -221,9 +230,10 @@ public class Search {
     int iterations;
     int fivePercent;
     LatencyReporter reporter;
+    Callback callback;
 
     public QueryProcessor(Search parent, String name, int id, String index, String outBase, String queryBase, String field, String normsField, boolean raw,
-        int hitsPerPage, int totalQueries, int iterations, LatencyReporter reporter) {
+        int hitsPerPage, int totalQueries, int iterations, LatencyReporter reporter, Callback callback) {
       this.parent = parent;
       this.field = field;
       this.raw = raw;
@@ -231,6 +241,7 @@ public class Search {
       this.fivePercent = iterations*totalQueries/20;
       this.iterations = iterations;
       this.reporter = reporter;
+      this.callback = callback;
       try {
         reader = DirectoryReader.open(FSDirectory.open(Paths.get(index)));
         /*if (normsField != null)
@@ -249,16 +260,20 @@ public class Search {
     public void run() throws java.io.IOException {
       Analyzer analyzer = new StandardAnalyzer();
       QueryParser parser = new QueryParser(field, analyzer);
-
+      callback.enableStress();
       while (true) {
+
         String line = in.readLine();
 
-        if (line == null || line.length() == -1)
+        if (line == null || line.length() == -1) {
           break;
+        }
+          
 
         line = line.trim();
-        if (line.length() == 0)
+        if (line.length() == 0) {
           break;
+        }
 
         if (line.equals("OR") || line.equals("AND") || line.equals("NOT") || line.equals("TO"))
           line = line.toLowerCase();
@@ -270,11 +285,12 @@ public class Search {
           System.err.println("Failed to process query: '"+line+"'");
           e.printStackTrace();
         }
+        callback.requestStart();
         reporter.start();
         searcher.search(query, 10);
-
         doPagingSearch(query);
         reporter.end();
+        callback.requestFinish();
       }
 
       reader.close();

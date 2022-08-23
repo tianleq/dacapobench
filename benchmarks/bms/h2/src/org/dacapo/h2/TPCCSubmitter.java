@@ -26,6 +26,7 @@ import org.apache.derbyTesting.system.oe.client.Submitter;
 import org.apache.derbyTesting.system.oe.util.OERandom;
 
 import org.dacapo.harness.LatencyReporter;
+import org.dacapo.harness.Callback;
 
 /**
  * A TPC-C like Submitter that will execute a fixed number of transactions only
@@ -46,6 +47,7 @@ public class TPCCSubmitter extends Submitter {
   private TPCCReporter reporter;
   
   private int tid;
+  private Callback callback;
 
   static void setSeed(long seed) {
     globalSeed = seed;
@@ -57,19 +59,21 @@ public class TPCCSubmitter extends Submitter {
     return result;
   }
 
-  public TPCCSubmitter(TPCCReporter reporter, Operations ops, OERandom rand, short maxW, int tid) {
+  public TPCCSubmitter(TPCCReporter reporter, Operations ops, OERandom rand, short maxW, int tid, Callback callback) {
     super(null, ops, rand, maxW);
     this.rand = rand;
     this.reporter = reporter;
     this.tid = tid;
+    this.callback = callback;
   }
 
   @Override
   public long runTransactions(final Object displayData, final int count) throws Exception {
     long start = System.nanoTime();
+    callback.enableStress();
     for (int i = 0; i < count; i++) {
       rand.setSeed(getNextSeed());
-
+      callback.requestStart();
       LatencyReporter.start(tid);
       int txType = getTransactionType();
       boolean success = false;
@@ -81,6 +85,7 @@ public class TPCCSubmitter extends Submitter {
       }
       transactionCount[txType]++;
       LatencyReporter.end(tid);
+      callback.requestFinish();
       long end = System.nanoTime();
       reporter.done();
       start = end;

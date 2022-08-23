@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.dacapo.harness.LatencyReporter;
+import org.dacapo.harness.Callback;
 
 /**
  * A client of the tomcat benchmark.
@@ -33,6 +34,7 @@ public class Client implements Runnable {
   private final boolean verbose;
   private final int port;
   private final LatencyReporter reporter;
+  private final Callback callback;
 
   /**
    * The pages to iterate through
@@ -122,13 +124,14 @@ public class Client implements Runnable {
    * @param port TCP port for the tomcat server
    * @throws IOException From creation of the client log file
    */
-  public Client(File logDir, int ordinal, int pageCount, boolean verbose, int port, LatencyReporter reporter) throws IOException {
+  public Client(File logDir, int ordinal, int pageCount, boolean verbose, int port, LatencyReporter reporter, Callback callback) throws IOException {
     this.logDir = logDir;
     this.ordinal = ordinal;
     this.pageCount = pageCount;
     this.verbose = verbose;
     this.port = port;
     this.reporter = reporter;
+    this.callback = callback;
   }
 
   /**
@@ -136,13 +139,16 @@ public class Client implements Runnable {
    */
   public void run() {
     final Session session = Session.create(port);
+    callback.enableStress();
     try {
       for (int i = 0; i < pageCount; i++) {
         for (int p = 0; p < pages.size(); p++) {
           Page page = pages.get(p);
+          callback.requestStart();
           reporter.start();
           boolean result = page.fetch(session, null, verbose);
           reporter.end();
+          callback.requestFinish();
         }
       }
     } catch (Exception e) {

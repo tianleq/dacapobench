@@ -213,14 +213,14 @@ public class TestHarness {
       InvocationTargetException, Exception {
     harness.config.printThreadModel(System.out, commandLineArgs.getSize(), commandLineArgs.getVerbose());
 
-    Constructor<?> cons = harness.findClass().getConstructor(new Class[] { Config.class, File.class, File.class });
-
-    Benchmark b = (Benchmark) cons.newInstance(new Object[] { harness.config, scratch, data });
-
     boolean valid = true;
     Callback callback = commandLineArgs.getCallback();
     callback.init(harness.config);
-
+    Benchmark.callback = callback;
+    
+    Constructor<?> cons = harness.findClass().getConstructor(new Class[] { Config.class, File.class, File.class });
+    Benchmark b = (Benchmark) cons.newInstance(new Object[] { harness.config, scratch, data });
+    
     do {
       valid = b.run(callback, commandLineArgs.getSize()) && valid;
     } while (callback.runAgain());

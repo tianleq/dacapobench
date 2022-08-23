@@ -24,10 +24,14 @@ public class Lusearch extends org.dacapo.harness.Benchmark {
     super(config, scratch, data, false);
     Class<?> clazz = Class.forName("org.dacapo.lusearch.Search", true, loader);
     this.method = clazz.getMethod("main", String[].class);
-    Constructor<?> cons = clazz.getConstructor();
+    Constructor<?> cons = clazz.getConstructor(org.dacapo.harness.Callback.class);
     useBenchmarkClassLoader();
     try {
-      benchmark = cons.newInstance();
+      if (Benchmark.callback == null) {
+        System.out.println("callback is null");
+        System.exit(100);
+      }
+      benchmark = cons.newInstance(Benchmark.callback);
     } finally {
       revertClassLoader();
     }

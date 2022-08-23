@@ -186,6 +186,7 @@ public abstract class Benchmark {
   protected int iteration = 0;
 
   protected Method method;
+  public static Callback callback;
 
   private Set<URL> jarDeps = new HashSet();
   private Set<URL> datDeps = new HashSet();

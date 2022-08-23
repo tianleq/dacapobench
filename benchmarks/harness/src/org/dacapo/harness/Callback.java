@@ -188,4 +188,10 @@ public class Callback {
     System.err.flush();
   }
 
+  public void requestStart() {}
+
+  public void requestFinish() {}
+
+  public void enableStress() {}
+
 }

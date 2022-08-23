@@ -45,7 +45,7 @@ public class H2 extends Benchmark {
     try {
       Class<?> tpccClazz  = Class.forName("org.dacapo.h2.TPCC",true,loader);
       // this.makeTPCC = tpccClazz.getMethod("make", Config.class, File.class, Boolean.class, Boolean.class);
-      this.makeTPCC = tpccClazz.getMethod("make", TreeMap.class, TreeMap.class, File.class, Boolean.class, Boolean.class);
+      this.makeTPCC = tpccClazz.getMethod("make", TreeMap.class, TreeMap.class, File.class, Boolean.class, Boolean.class, org.dacapo.harness.Callback.class);
       this.prepareTPCC = tpccClazz.getMethod("prepare", String.class);
       this.preIterationTPCC = tpccClazz.getMethod("preIteration", String.class);
       this.iterationTPCC = tpccClazz.getMethod("iteration", String.class);
@@ -61,7 +61,7 @@ public class H2 extends Benchmark {
       }
       
       // construct the benchmark
-      this.tpcc = this.makeTPCC.invoke(null, threadMap, argMap, scratch, getVerbose(), getPreserve());
+      this.tpcc = this.makeTPCC.invoke(null, threadMap, argMap, scratch, getVerbose(), getPreserve(), Benchmark.callback);
     } finally {
       revertClassLoader();
     }

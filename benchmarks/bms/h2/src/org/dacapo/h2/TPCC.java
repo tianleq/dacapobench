@@ -9,6 +9,7 @@
 package org.dacapo.h2;
 
 import org.dacapo.harness.LatencyReporter;
+import org.dacapo.harness.Callback;
 
 import java.io.File;
 import java.io.IOException;
@@ -125,18 +126,19 @@ public class TPCC {
   final static long SEED = 897523978813691l;
   final static int SEED_STEP = 100000;
 
-  
+  private Callback callback;
      
-  public static TPCC make(TreeMap<String,String> threadMap, TreeMap<String,String[]> argMap, File scratch, Boolean verbose, Boolean preserve) throws Exception {
-    return new TPCC(threadMap, argMap, scratch, verbose, preserve);
+  public static TPCC make(TreeMap<String,String> threadMap, TreeMap<String,String[]> argMap, File scratch, Boolean verbose, Boolean preserve, Callback callback) throws Exception {
+    return new TPCC(threadMap, argMap, scratch, verbose, preserve, callback);
   }
 
-  public TPCC(TreeMap<String,String> threadMap, TreeMap<String,String[]> argMap, File scratch, boolean verbose, boolean preserve) throws Exception {
-	this.threadMap = threadMap;
-	this.argMap = argMap;
+  public TPCC(TreeMap<String,String> threadMap, TreeMap<String,String[]> argMap, File scratch, boolean verbose, boolean preserve, Callback callback) throws Exception {
+	  this.threadMap = threadMap;
+	  this.argMap = argMap;
     this.scratch = scratch;
     this.verbose = verbose;
     this.preserve = preserve;
+    this.callback = callback;
   }
 
   public void prepare(String size) throws Exception {
@@ -277,7 +279,7 @@ public class TPCC {
 
       Operations ops = new Standard(connections[i]);
 
-      submitters[i] = new TPCCSubmitter(reporter, ops, rands[i], scale, i);
+      submitters[i] = new TPCCSubmitter(reporter, ops, rands[i], scale, i, this.callback);
     }
 
     preIterationTime = System.currentTimeMillis() - start;
