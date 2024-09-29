@@ -468,6 +468,7 @@
         <clean.bm benchmark="lusearch"/>
         <clean.bm benchmark="pmd"/>
         <clean.bm benchmark="spring"/>
+        <clean.bm benchmark="spring-javac" />
         <clean.bm benchmark="sunflow"/>
         <clean.bm benchmark="tomcat"/>
         <clean.bm benchmark="tradebeans"/>

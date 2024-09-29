@@ -31,7 +31,7 @@
 
     <import file="../common.xml"/>
 
-    <target name="unpack" depends="untar, patch"/>
+    <target name="unpack" depends="untar"/>
 
     <property name="mvn-home" location="${toolsdir}/apache-maven-${mvn.version}/bin"/>
     <property name="mvn-exe" value="${mvn-home}/mvn"/>
