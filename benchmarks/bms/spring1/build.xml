@@ -7,12 +7,12 @@
  *    http://www.opensource.org/licenses/apache2.0.php
  -->
 
-<project name="spring-javac" default="all" basedir="../..">
+<project name="spring1" default="all" basedir="../..">
     <description>Dacapo Spring Benchmark</description>
     <property file="local.properties"/>
     <property file="dacapo.properties"/>
 
-    <property name="bm-name" value="spring-javac"/>
+    <property name="bm-name" value="spring1"/>
     <property name="bm-version" value="2.7.3"/>  <!-- last release before 3.0, where JDK 17 is MSV -->
     <property name="tomcat-version" value="9.0.65" />
     <property name="tomcat-url" value="${apache.dl.url}/tomcat/tomcat-9/v${tomcat-version}/src"/>
@@ -140,14 +140,13 @@
     </target>
 
     <target name="data">
-        <copy file="${bm-files}/workload/requests.txt" todir="${bm-data}"/>
         <antcall target="make-executable">
            <param name="target-filename" value="${bm-files}/workload/loadgen.py"/>
         </antcall>
         <mkdir dir="${bm-data}/src-files"/>
         <exec executable="${bm-files}/workload/loadgen.py" dir="${bm-files}/workload" failonerror="true">
             <arg line="${bm-files}/workload"/>
-            <arg line="${bm-data}/src-files"/>
+            <arg line="${bm-data}"/>
         </exec>
     </target>
 

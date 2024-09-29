@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import os.path
 import sys
 from zipfile import ZipFile
@@ -16,10 +18,10 @@ def unzip_src_files(src, dest):
                 continue
             src_files.append(filename)
 
-            output_path = Path(os.path.join(dest, filename)).resolve()
+            output_path = Path(os.path.join(dest, "src-files", filename)).resolve()
             output_path.parent.mkdir(parents=True, exist_ok=True)
 
-            with file.open(filename, "r") as input, open(os.path.join(dest, filename), "wb") as output:
+            with file.open(filename, "r") as input, open(output_path, "wb") as output:
 
                 output.write(input.read())
 
