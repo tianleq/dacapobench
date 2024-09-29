@@ -152,7 +152,7 @@
         </copy>
 
 		<!-- ensure files are read only -->
-		<chmod perm="ugo-w" type="both">
+		<chmod perm="ugo-w" type="both" maxparallel="256">
 			<fileset dir="${bm-dat}">
 			    <exclude name="**/src-files/**"/>
 			</fileset>
