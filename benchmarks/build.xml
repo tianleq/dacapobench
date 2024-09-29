@@ -604,6 +604,10 @@ See ${log.build.report} for a summary of benchmark build status.
         <build.bm benchmark="spring"/>
         <generate-launcher-jars benchmark="spring"/>
     </target>
+    <target name="spring-javac" depends="init,harness">
+        <build.bm benchmark="spring-javac"/>
+        <generate-launcher-jars benchmark="spring-javac"/>
+    </target>
     <target name="sunflow" depends="init,harness">
         <build.bm benchmark="sunflow"/>
         <generate-launcher-jars benchmark="sunflow"/>
