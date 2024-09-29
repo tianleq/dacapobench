@@ -132,6 +132,7 @@
             <param name="target-filename" value="${build-script}"/>
         </antcall>
         <exec executable="${build-script}" dir="${bm-build-dir}" failonerror="true">
+            <env key="JAVA_HOME" value="${jdk.11.home}"/>
             <arg line="package"/>
             <arg line="'-Dtomcat.version=${tomcat-version}-PATCHED'"/>
             <arg line="'-Dh2.version=${sp-h2-version}-PATCHED'"/>
