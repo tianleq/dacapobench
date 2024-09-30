@@ -31,7 +31,7 @@ def generate_workload(dest):
     dummy_digest = "     0 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX "
     with open(os.path.join(dest, "requests.list"), "w") as output:
         for file in src_files:
-            print(f"{dummy_digest}G/compile?name={file}", file=output)
+            print(f"{dummy_digest}G/compile?file={file}", file=output)
 
 
 
