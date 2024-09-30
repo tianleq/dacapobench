@@ -50,7 +50,7 @@ public class Spring1 extends Benchmark {
 
         // https://www.toptal.com/spring-boot/spring-boot-application-programmatic-launch
 
-        String pathToJar = data+File.separator+"jar"+File.separator+"sprin1"+File.separator+"spring-javac-0.0.1.jar";
+        String pathToJar = data+File.separator+"jar"+File.separator+"spring1"+File.separator+"spring-javac-0.0.1.jar";
         System.getProperties().setProperty("server.tomcat.basedir", scratch.getCanonicalPath() + File.separator + "tomcat");
         System.getProperties().setProperty("org.dacapo.spring.javac.root", data+File.separator+"dat"+File.separator+"spring1"+File.separator+"src-files");
         Thread.currentThread().setContextClassLoader(loader);
