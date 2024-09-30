@@ -1,5 +1,5 @@
-benchmark spring
-  class org.dacapo.harness.Spring
+benchmark spring1
+  class org.dacapo.harness.Spring1
   thread-model per_cpu;
 
 size small args "32", "2"
@@ -10,7 +10,7 @@ size default args "8192", "8"
   output stdout digest 0x5fb134f6616c50d8edc6d924c165fb308dd9f45a,
          stderr digest 0xda39a3ee5e6b4b0d3255bfef95601890afd80709;
          
-size large args "131072", "16"
+size large args "12729", "16"
   output stdout digest 0xe87c57f95d86ae2a122d6e090bbcb005f145e68b,
          stderr digest 0xda39a3ee5e6b4b0d3255bfef95601890afd80709;
 
