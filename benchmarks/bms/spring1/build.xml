@@ -148,6 +148,7 @@
             <arg line="${bm-files}/workload"/>
             <arg line="${bm-data}"/>
         </exec>
+        <copy file="${bm-files}/workload/requests.list" todir="${bm-data}"/>
     </target>
 
     <target name="jar">
