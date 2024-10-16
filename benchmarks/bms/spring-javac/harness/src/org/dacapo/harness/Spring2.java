@@ -50,9 +50,9 @@ public class Spring2 extends Benchmark {
 
         // https://www.toptal.com/spring-boot/spring-boot-application-programmatic-launch
 
-        String pathToJar = data+File.separator+"jar"+File.separator+"spring2"+File.separator+"spring-javac-0.0.1.jar";
+        String pathToJar = data+File.separator+"jar"+File.separator+"spring-javac"+File.separator+"spring-javac-0.0.1.jar";
         System.getProperties().setProperty("server.tomcat.basedir", scratch.getCanonicalPath() + File.separator + "tomcat");
-        System.getProperties().setProperty("org.dacapo.spring.javac.root", data+File.separator+"dat"+File.separator+"spring2"+File.separator+"src-files");
+        System.getProperties().setProperty("org.dacapo.spring.javac.root", data+File.separator+"dat"+File.separator+"spring-javac"+File.separator+"src-files");
         Thread.currentThread().setContextClassLoader(loader);
         launch.invoke(null, pathToJar);
     }
@@ -61,7 +61,7 @@ public class Spring2 extends Benchmark {
     private void loadRequests(int sessions) {
         requests = new String[sessions];
 
-        String filename = data+File.separator+"dat"+File.separator+"spring2"+File.separator+"requests.list";
+        String filename = data+File.separator+"dat"+File.separator+"spring-javac"+File.separator+"requests.list";
 
         try {
             BufferedReader in = new BufferedReader(new FileReader(filename));
