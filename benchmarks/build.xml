@@ -469,6 +469,7 @@
         <clean.bm benchmark="pmd"/>
         <clean.bm benchmark="spring"/>
         <clean.bm benchmark="spring1" />
+        <clean.bm benchmark="spring2" />
         <clean.bm benchmark="sunflow"/>
         <clean.bm benchmark="tomcat"/>
         <clean.bm benchmark="tradebeans"/>
@@ -608,6 +609,10 @@ See ${log.build.report} for a summary of benchmark build status.
     <target name="spring1" depends="init,harness">
         <build.bm benchmark="spring1"/>
         <generate-launcher-jars benchmark="spring1"/>
+    </target>
+    <target name="spring2" depends="init,harness">
+        <build.bm benchmark="spring2"/>
+        <generate-launcher-jars benchmark="spring2"/>
     </target>
     <target name="sunflow" depends="init,harness">
         <build.bm benchmark="sunflow"/>
