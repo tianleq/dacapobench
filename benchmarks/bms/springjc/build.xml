@@ -7,12 +7,12 @@
  *    http://www.opensource.org/licenses/apache2.0.php
  -->
 
-<project name="spring-javac" default="all" basedir="../..">
+<project name="springjc" default="all" basedir="../..">
     <description>Dacapo Spring Benchmark</description>
     <property file="local.properties"/>
     <property file="dacapo.properties"/>
 
-    <property name="bm-name" value="spring-javac"/>
+    <property name="bm-name" value="springjc"/>
     <property name="bm-version" value="2.7.3"/>  <!-- last release before 3.0, where JDK 17 is MSV -->
     <property name="tomcat-version" value="9.0.65" />
     <property name="tomcat-url" value="${apache.dl.url}/tomcat/tomcat-9/v${tomcat-version}/src"/>
@@ -25,7 +25,7 @@
     <property name="sp-h2-src-basename" value="version-${sp-h2-version}"/>
     <property name="sp-h2-src" value="${sp-h2-src-basename}.tar.gz"/>
 
-    <property name="bm-version-str" value="springboot ${bm-version} spring-javac h2 2.1.214 hibernate 5.6.10 tomcat ${tomcat-version}"/>
+    <property name="bm-version-str" value="springboot ${bm-version} springjc h2 2.1.214 hibernate 5.6.10 tomcat ${tomcat-version}"/>
     <property name="bm-src" value="${bm-name}-${bm-version}-src.tar.gz"/>
 
 
@@ -165,10 +165,7 @@
         </javac>
         <jar destfile="${bm-jars}/dacapo-${bm-name}.jar" update="true">
             <fileset dir="${bm-build-dir}">
-                <!--
-                    The following is not a typo, '-' is not a valid character as part of class name
-                -->
-                <include name="org/dacapo/spring2/**"/>
+                <include name="org/dacapo/springjc/**"/>
             </fileset>
         </jar>
     </target>

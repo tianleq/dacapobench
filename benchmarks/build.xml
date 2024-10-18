@@ -273,7 +273,7 @@
                 <include name="benchmarks/bms/cassandra/workload/**"/>
                 <include name="benchmarks/bms/pmd/mvn_toolchain_setup.sh"/>
                 <include name="benchmarks/bms/spring/workload/**"/>
-                <include name="benchmarks/bms/spring-javac/workload/**"/>
+                <include name="benchmarks/bms/springjc/workload/**"/>
                 <include name="benchmarks/bms/xalan/workload/**"/>
 
                 <!-- add eclipse's plugin -->
@@ -362,7 +362,7 @@
     <!-- ================================= 
          target: compile  all sources
          ================================= -->
-    <target name="compile" depends="avrora,batik,biojava,cassandra,eclipse,fop,graphchi,h2,h2o,jme,jython,kafka,luindex,lusearch,pmd,spring,spring-javac,sunflow,tomcat,tradebeans,tradesoap,xalan,zxing">
+    <target name="compile" depends="avrora,batik,biojava,cassandra,eclipse,fop,graphchi,h2,h2o,jme,jython,kafka,luindex,lusearch,pmd,spring,springjc,sunflow,tomcat,tradebeans,tradesoap,xalan,zxing">
         <antcall target="build.status.fail" />
         <antcall target="build.status.pass" />
     </target>
@@ -469,7 +469,7 @@
         <clean.bm benchmark="lusearch"/>
         <clean.bm benchmark="pmd"/>
         <clean.bm benchmark="spring"/>
-        <clean.bm benchmark="spring-javac" />
+        <clean.bm benchmark="springjc" />
         <clean.bm benchmark="sunflow"/>
         <clean.bm benchmark="tomcat"/>
         <clean.bm benchmark="tradebeans"/>
@@ -607,9 +607,9 @@ See ${log.build.report} for a summary of benchmark build status.
         <build.bm benchmark="spring"/>
         <generate-launcher-jars benchmark="spring"/>
     </target>
-    <target name="spring-javac" depends="init,harness">
-        <build.bm benchmark="spring-javac"/>
-        <generate-launcher-jars benchmark="spring-javac"/>
+    <target name="springjc" depends="init,harness">
+        <build.bm benchmark="springjc"/>
+        <generate-launcher-jars benchmark="springjc"/>
     </target>
     <target name="sunflow" depends="init,harness">
         <build.bm benchmark="sunflow"/>

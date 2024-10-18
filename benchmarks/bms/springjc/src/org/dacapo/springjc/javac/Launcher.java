@@ -1,4 +1,4 @@
-package org.dacapo.spring2.javac;
+package org.dacapo.springjc.javac;
 
 import java.io.File;
 import java.lang.reflect.Method;

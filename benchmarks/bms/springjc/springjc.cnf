@@ -1,5 +1,5 @@
-benchmark spring-javac
-  class org.dacapo.harness.Spring2
+benchmark springjc
+  class org.dacapo.harness.SpringJavac
   thread-model per_cpu;
 
 size small args "32", "1"

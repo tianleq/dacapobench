@@ -23,7 +23,7 @@ import java.io.FileReader;
 
 /**
  */
-public class Spring2 extends Benchmark {
+public class SpringJavac extends Benchmark {
     private Method launch;
     private final Constructor<Runnable> clientConstructor;
     private final Method reset;
@@ -32,12 +32,12 @@ public class Spring2 extends Benchmark {
     private String[] requests;
 
 
-    public Spring2(Config config, File scratch, File data) throws Exception {
+    public SpringJavac(Config config, File scratch, File data) throws Exception {
         super(config, scratch, data, false, false);
 
-        Class launcher = Class.forName("org.dacapo.spring2.javac.Launcher", true, this.loader);
+        Class launcher = Class.forName("org.dacapo.springjc.javac.Launcher", true, this.loader);
         launch = launcher.getMethod("launch", String.class);
-        Class client = Class.forName("org.dacapo.spring2.javac.Client", true, this.loader);
+        Class client = Class.forName("org.dacapo.springjc.javac.Client", true, this.loader);
         this.clientConstructor = client.getConstructor(int.class,  org.dacapo.harness.LatencyReporter.class);
         this.reset = client.getMethod("reset", String[].class, int.class, int.class);
     }
@@ -50,9 +50,9 @@ public class Spring2 extends Benchmark {
 
         // https://www.toptal.com/spring-boot/spring-boot-application-programmatic-launch
 
-        String pathToJar = data+File.separator+"jar"+File.separator+"spring-javac"+File.separator+"spring-javac-0.0.1.jar";
+        String pathToJar = data+File.separator+"jar"+File.separator+"springjc"+File.separator+"spring-javac-0.0.1.jar";
         System.getProperties().setProperty("server.tomcat.basedir", scratch.getCanonicalPath() + File.separator + "tomcat");
-        System.getProperties().setProperty("org.dacapo.spring.javac.root", data+File.separator+"dat"+File.separator+"spring-javac"+File.separator+"src-files");
+        System.getProperties().setProperty("org.dacapo.spring.javac.root", data+File.separator+"dat"+File.separator+"springjc"+File.separator+"src-files");
         Thread.currentThread().setContextClassLoader(loader);
         launch.invoke(null, pathToJar);
     }
@@ -61,7 +61,7 @@ public class Spring2 extends Benchmark {
     private void loadRequests(int sessions) {
         requests = new String[sessions];
 
-        String filename = data+File.separator+"dat"+File.separator+"spring-javac"+File.separator+"requests.list";
+        String filename = data+File.separator+"dat"+File.separator+"springjc"+File.separator+"requests.list";
 
         try {
             BufferedReader in = new BufferedReader(new FileReader(filename));
